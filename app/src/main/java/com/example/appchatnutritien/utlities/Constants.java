@@ -1,7 +1,7 @@
 package com.example.appchatnutritien.utlities;
 
 public class Constants {
-    public static final String KEY_COLLECTION_USERS ="users";
+    public static final String KEY_COLLECTION_DOCTORS ="doctors";
     public static final String KEY_NAME ="name";
     public static final String KEY_PHONE ="phoneNumber";
     public static final String KEY_IMAGE ="image";

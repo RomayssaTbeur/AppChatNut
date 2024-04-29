@@ -82,7 +82,7 @@ public class AccountMedActivity extends AppCompatActivity {
         user.put(Constants.KEY_PRICE_VOICE_CALL,binding.inputPriceVoice.getText().toString());
         user.put(Constants.KEY_PRICE_VIDEO_CALL,binding.inputPriceVideo.getText().toString());
 
-        database.collection(Constants.KEY_COLLECTION_USERS)
+        database.collection(Constants.KEY_COLLECTION_DOCTORS)
                 .add(user)
                 .addOnSuccessListener(documentReference -> {
                      loading(false);
