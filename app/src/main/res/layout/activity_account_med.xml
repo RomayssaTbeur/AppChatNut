@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:clipToPadding="false"
+    android:padding="@dimen/_24sdp"
+    android:scrollbars="none"
+    android:background="@drawable/removegreen"
+    tools:context=".activities.AccountMedActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+
+        <ImageView
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="@dimen/_120sdp"
+            android:src="@drawable/removenewlogo1" />
+
+        <FrameLayout
+            android:id="@+id/layoutImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            >
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/ImageProfil"
+                android:layout_width="@dimen/_60sdp"
+                android:layout_height="@dimen/_60sdp"
+                android:background="@drawable/background"
+                android:scaleType="centerCrop"
+                app:riv_oval="true"/>
+
+            <TextView
+                android:id="@+id/textImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Add Image"
+                android:textColor="@color/greenfat7"
+                />
+        </FrameLayout>
+        <EditText
+            android:id="@+id/inputname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Name"
+            android:inputType="text"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:imeOptions="actionNext"
+
+            />
+
+        <EditText
+            android:id="@+id/inputTel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Phone number"
+            android:inputType="phone"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:imeOptions="actionNext"
+            />
+        <EditText
+            android:id="@+id/inputFormation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Training and experiences"
+            android:inputType="textMultiLine"
+            android:lines="2"
+            android:minLines="1"
+            android:maxLines="10"
+            android:gravity="top"
+            android:scrollbars="vertical"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:imeOptions="actionNext"
+            />
+        <EditText
+            android:id="@+id/inputPriceChat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Price to messaging"
+            android:inputType="number"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:imeOptions="actionNext"
+            />
+        <EditText
+            android:id="@+id/inputPriceVoice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Price to voice call"
+            android:inputType="number"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:imeOptions="actionNext"
+            />
+        <EditText
+            android:id="@+id/inputPriceVideo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/price_to_video_call"
+            android:inputType="number"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:imeOptions="actionDone"
+
+            />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:animateLayoutChanges="true"
+            >
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCreate"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:text="Create your account"
+                android:textSize="@dimen/_13ssp"
+                android:textStyle="bold"
+                app:cornerRadius="@dimen/_8sdp"
+                android:backgroundTint="@color/BtnBackground"
+                />
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:layout_gravity="center"
+                android:visibility="invisible"
+                />
+
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/lienLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:text="Do you have already an account?"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_11sdp"
+
+
+            />
+    </LinearLayout>
+
+</ScrollView>

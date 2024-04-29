@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "114669042912",
+    "project_id": "chat-app-nut",
+    "storage_bucket": "chat-app-nut.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:114669042912:android:495a9c5af9c79fa4a76485",
+        "android_client_info": {
+          "package_name": "com.example.appchatnutritien"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwC-ogLGEnUOuFbPdm2KAXHPHXn7rpGMM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
