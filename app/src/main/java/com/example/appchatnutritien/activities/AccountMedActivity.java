@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -23,6 +24,8 @@ import com.example.appchatnutritien.databinding.ActivityAccountMedBinding;
 import com.example.appchatnutritien.databinding.ActivityLogInBinding;
 import com.example.appchatnutritien.utlities.Constants;
 import com.example.appchatnutritien.utlities.PreferenceManager;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.ByteArrayInputStream;
@@ -36,7 +39,8 @@ public class AccountMedActivity extends AppCompatActivity {
     private ActivityAccountMedBinding binding;
     private String encodedImage;
     private PreferenceManager preferenceManager;
-
+    private EditText editTextEmail;
+    private FirebaseAuth firebaseAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +55,7 @@ public class AccountMedActivity extends AppCompatActivity {
 
         preferenceManager = new PreferenceManager(getApplicationContext());
         setListeners();
+
     }
 
     private void setListeners() {
@@ -62,18 +67,23 @@ public class AccountMedActivity extends AppCompatActivity {
             }
         });
         binding.layoutImage.setOnClickListener(v->{
-             Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-             pickImage.launch(intent);
+            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            pickImage.launch(intent);
         });
     }
 
     private void CreateAccount() {
-         loading(true);
-
+        loading(true);
+        editTextEmail =findViewById(R.id.email);
+        String email= String.valueOf(editTextEmail.getText());
         FirebaseFirestore database = FirebaseFirestore.getInstance();
         HashMap<String, Object> user = new HashMap<>();
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseAuth.createUserWithEmailAndPassword(email, String.valueOf(124554));
+        FirebaseUser userauth = firebaseAuth.getCurrentUser();
 
+        String userId = userauth.getUid();
         user.put(Constants.KEY_IMAGE,encodedImage);
         user.put(Constants.KEY_NAME,binding.inputname.getText().toString());
         user.put(Constants.KEY_PHONE,binding.inputTel.getText().toString());
@@ -81,18 +91,19 @@ public class AccountMedActivity extends AppCompatActivity {
         user.put(Constants.KEY_PRICE_CHAT,binding.inputPriceChat.getText().toString());
         user.put(Constants.KEY_PRICE_VOICE_CALL,binding.inputPriceVoice.getText().toString());
         user.put(Constants.KEY_PRICE_VIDEO_CALL,binding.inputPriceVideo.getText().toString());
-
+        user.put(Constants.KEY_Email, email);
+        user.put(Constants.KEY_USER_ID, userId);
         database.collection(Constants.KEY_COLLECTION_DOCTORS)
                 .add(user)
                 .addOnSuccessListener(documentReference -> {
-                     loading(false);
-                     preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN,true);
-                     preferenceManager.putString(Constants.KEY_USER_ID, documentReference.getId());
+                    loading(false);
+                    preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN,true);
+                    preferenceManager.putString(Constants.KEY_USER_ID, documentReference.getId());
 
-                     preferenceManager.putString(Constants.KEY_IMAGE,encodedImage);
-                     preferenceManager.putString(Constants.KEY_NAME, binding.inputname.getText().toString());
-                     preferenceManager.putString(Constants.KEY_PHONE,binding.inputTel.getText().toString());
-                     preferenceManager.putString(Constants.KEY_EXPERIENCE,binding.inputFormation.getText().toString());
+                    preferenceManager.putString(Constants.KEY_IMAGE,encodedImage);
+                    preferenceManager.putString(Constants.KEY_NAME, binding.inputname.getText().toString());
+                    preferenceManager.putString(Constants.KEY_PHONE,binding.inputTel.getText().toString());
+                    preferenceManager.putString(Constants.KEY_EXPERIENCE,binding.inputFormation.getText().toString());
                     preferenceManager.putString(Constants.KEY_PRICE_CHAT,binding.inputPriceChat.getText().toString());
                     preferenceManager.putString(Constants.KEY_PRICE_VOICE_CALL,binding.inputPriceVoice.getText().toString());
                     preferenceManager.putString(Constants.KEY_PRICE_VIDEO_CALL,binding.inputPriceVideo.getText().toString());
@@ -153,23 +164,23 @@ public class AccountMedActivity extends AppCompatActivity {
     }
 
     private final ActivityResultLauncher<Intent> pickImage= registerForActivityResult(
-           new ActivityResultContracts.StartActivityForResult(),
-           result->{
-               if(result.getResultCode() == RESULT_OK) {
-                   if(result.getData() != null) {
-                       Uri imageUri = result.getData().getData();
-                       try {
-                           InputStream inputStream = getContentResolver().openInputStream(imageUri);
-                           Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                           binding.ImageProfil.setImageBitmap(bitmap);
-                           binding.textImage.setVisibility(View.GONE);
-                           encodedImage = encodedImage(bitmap);
-                       }catch(FileNotFoundException e) {
-                           e.printStackTrace();
-                       }
-                   }
-               }
-           }
+            new ActivityResultContracts.StartActivityForResult(),
+            result->{
+                if(result.getResultCode() == RESULT_OK) {
+                    if(result.getData() != null) {
+                        Uri imageUri = result.getData().getData();
+                        try {
+                            InputStream inputStream = getContentResolver().openInputStream(imageUri);
+                            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                            binding.ImageProfil.setImageBitmap(bitmap);
+                            binding.textImage.setVisibility(View.GONE);
+                            encodedImage = encodedImage(bitmap);
+                        }catch(FileNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
     );
 
     private void showToast(String message) {
@@ -189,4 +200,3 @@ public class AccountMedActivity extends AppCompatActivity {
 
 
 }
-

@@ -2,24 +2,16 @@ package com.example.appchatnutritien.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.renderscript.ScriptGroup;
 import android.view.View;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
-import com.example.appchatnutritien.R;
 import com.example.appchatnutritien.databinding.ActivityLogInBinding;
 import com.example.appchatnutritien.utlities.Constants;
 import com.example.appchatnutritien.utlities.PreferenceManager;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.HashMap;
 
 public class LogInActivity extends AppCompatActivity {
 
@@ -37,7 +29,7 @@ public class LogInActivity extends AppCompatActivity {
 //            startActivity(intent);
 //            finish();
 //        }
-        binding=ActivityLogInBinding.inflate(getLayoutInflater());
+        binding= ActivityLogInBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setListeners();
     }
@@ -69,7 +61,7 @@ public class LogInActivity extends AppCompatActivity {
                         preferenceManager.putString(Constants.KEY_NAME, documentSnapshot.getString(Constants.KEY_NAME));
                         preferenceManager.putString(Constants.KEY_IMAGE, documentSnapshot.getString(Constants.KEY_IMAGE));
 
-                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), HomePatientActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
                     }else{

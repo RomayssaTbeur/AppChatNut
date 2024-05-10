@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/backloginpatient"
+    tools:context=".activities.RegisterPatientActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="280dp"
+            android:layout_height="190dp"
+            android:layout_gravity="center"
+            android:src="@drawable/removenewlogo1" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Welcome to NutDoctors  "
+
+            android:gravity="center"
+            android:textColor="#2E8B57"
+            android:textSize="24sp"
+            android:textStyle="bold|italic" />
+
+        <ImageView
+            android:id="@+id/image_view"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+
+            >   </ImageView>
+
+        <EditText
+            android:id="@+id/name"
+            android:layout_width="380dp"
+            android:layout_height="wrap_content"
+            android:hint="your name ... "
+            android:textColor="#201F1F"
+            android:textAlignment="viewStart" />
+
+        <EditText
+            android:id="@+id/email"
+            android:layout_width="380dp"
+            android:layout_height="wrap_content"
+            android:hint="your email ... "
+            android:textColor="#201F1F"
+            android:inputType="textEmailAddress"
+            android:textAlignment="viewStart" />
+
+        <EditText
+            android:id="@+id/age"
+            android:layout_width="380dp"
+            android:layout_height="wrap_content"
+            android:hint="your age ... "
+            android:textColor="#201F1F"
+            android:inputType="number"
+            android:textAlignment="viewStart"
+            />
+
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="380dp"
+            android:layout_height="wrap_content"
+            android:hint="your password ... "
+            android:textColor="#201F1F"
+            android:inputType="textPassword"
+            android:textAlignment="viewStart"
+            />
+
+        <EditText
+            android:id="@+id/adresse"
+            android:layout_width="380dp"
+            android:layout_height="wrap_content"
+            android:hint="your address ... "
+            android:textColor="#201F1F"
+            android:textAlignment="viewStart"
+            />
+
+        <EditText
+            android:id="@+id/phone"
+            android:layout_width="380dp"
+            android:layout_height="wrap_content"
+            android:hint="your phone ... "
+            android:textColor="#201F1F"
+            android:inputType="phone"
+            android:textAlignment="viewStart"
+            />
+        <Button
+            android:id="@+id/select_image_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#15ab98"
+            android:text="Select Picture" />
+        <Button
+            android:id="@+id/button"
+            android:layout_width="380dp"
+            android:layout_height="wrap_content"
+
+            android:text="Register Now"
+            android:backgroundTint="#2E8B57"
+            android:textColor="@color/white"
+            />
+
+
+
+    </LinearLayout>
+
+</ScrollView>
