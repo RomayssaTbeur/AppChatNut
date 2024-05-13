@@ -243,6 +243,7 @@
                 android:textSize="13sp"
                 android:textStyle="bold" />
 
+
         </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -281,6 +282,7 @@
                 android:textSize="13sp"
                 android:textStyle="bold" />
 
+
         </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -308,6 +310,7 @@
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
+
             <TextView
                 android:id="@+id/priceVideoCall"
                 android:layout_width="wrap_content"
@@ -321,6 +324,7 @@
 
         </LinearLayout>
 
+
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -328,13 +332,56 @@
             android:alpha="0.5"
             android:background="@color/lavender" />
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
 
+            android:layout_marginLeft="62dp"
+            android:orientation="vertical"
+
+            tools:ignore="MissingConstraints">
+            <Button
+                android:layout_width="230dp"
+                android:layout_height="50dp"
+                android:id="@+id/btnPayerMessage"
+                android:layout_marginTop="30dp"
+                android:text="Payer for Messaging"
+                android:textSize="18sp"
+                app:cornerRadius = "10dp"
+                android:backgroundTint="#5FE699"
+
+                />
+            <Button
+                android:layout_width="230dp"
+                android:layout_height="50dp"
+                android:id="@+id/btnPayerVideoCall"
+
+                android:text="Payer for Viedo Call"
+                android:textSize="18sp"
+                app:cornerRadius = "10dp"
+                android:backgroundTint="#5FE699"
+                android:layout_marginBottom="5dp"
+
+                />
+            <Button
+                android:layout_width="230dp"
+                android:layout_height="50dp"
+                android:id="@+id/btnPayerVoiceCall"
+
+                android:text="Payer for Voice call"
+                android:textSize="18sp"
+
+                app:cornerRadius = "10dp"
+                android:backgroundTint="#5FE699"
+
+                />
+
+        </LinearLayout>
     </LinearLayout>
-
     <Button
         android:layout_width="0dp"
         android:layout_height="60dp"
-        android:id="@+id/editButton"
+        android:id="@+id/messageButton"
         android:gravity="center"
         android:text="Envoyer un message"
         android:textSize="18sp"
@@ -343,6 +390,13 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/linearLayout"
         app:layout_constraintStart_toStartOf="@id/linearLayout"
-        app:layout_constraintTop_toBottomOf="@id/linearLayout"/>
+        app:layout_constraintTop_toBottomOf="@id/linearLayout"
+
+        />
+
+
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

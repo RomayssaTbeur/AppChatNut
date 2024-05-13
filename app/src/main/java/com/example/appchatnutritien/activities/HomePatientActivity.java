@@ -305,6 +305,7 @@ public class HomePatientActivity extends AppCompatActivity {
                         String priceVoiceCall = (String) doctor.get("priceVoiceCall");
                         String doctorEmail = (String) doctor.get("email");
                         String doctorTele = (String) doctor.get("phoneNumber");
+                        String userId=(String) doctor.get("userId");
 
                         // Créer un intent pour démarrer Detail_Info_MedActivity
                         Intent intent = new Intent(HomePatientActivity.this, Detail_Info_MedActivity.class);
@@ -319,7 +320,7 @@ public class HomePatientActivity extends AppCompatActivity {
                         intent.putExtra("priceMessaging", priceMessaging);
                         intent.putExtra("priceVideoCall", priceVideoCall);
                         intent.putExtra("priceVoiceCall", priceVoiceCall);
-
+                        intent.putExtra("userId", userId);
                         // Démarrer l'activité Detail_Info_MedActivity
                         startActivity(intent);
                     }

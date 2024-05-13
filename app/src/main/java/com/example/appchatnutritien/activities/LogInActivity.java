@@ -61,7 +61,7 @@ public class LogInActivity extends AppCompatActivity {
                         preferenceManager.putString(Constants.KEY_NAME, documentSnapshot.getString(Constants.KEY_NAME));
                         preferenceManager.putString(Constants.KEY_IMAGE, documentSnapshot.getString(Constants.KEY_IMAGE));
 
-                        Intent intent = new Intent(getApplicationContext(), HomePatientActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), Recupereinfo.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
                     }else{
