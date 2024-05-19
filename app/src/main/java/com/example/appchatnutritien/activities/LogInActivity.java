@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.appchatnutritien.databinding.ActivityLogInBinding;
 import com.example.appchatnutritien.utlities.Constants;
 import com.example.appchatnutritien.utlities.PreferenceManager;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -17,7 +19,8 @@ public class LogInActivity extends AppCompatActivity {
 
     private ActivityLogInBinding binding;
     private PreferenceManager preferenceManager;
-
+    private String currentUser;
+    private FirebaseAuth firebaseAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +37,14 @@ public class LogInActivity extends AppCompatActivity {
         setListeners();
     }
 
+    public String getCurrentUser() {
+        return currentUser;
+    }
+
+    public void setCurrentUser(String currentUser) {
+        this.currentUser = currentUser;
+    }
+
     private void setListeners(){
         binding.lienCreate.setOnClickListener(v ->startActivity(new Intent(getApplicationContext(),AccountMedActivity.class)));
 
@@ -46,28 +57,26 @@ public class LogInActivity extends AppCompatActivity {
 
     private void LogIn(){
         loading(true);
-        FirebaseFirestore database = FirebaseFirestore.getInstance();
-        database.collection(Constants.KEY_COLLECTION_DOCTORS)
-                .whereEqualTo(Constants.KEY_NAME,binding.inputname.getText().toString())
-                .whereEqualTo(Constants.KEY_PHONE,binding.inputphone.getText().toString())
-                .get()
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        String email=binding.inputemail.getText().toString();
+        String password=binding.inputpassword.getText().toString();
+
+        FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
-                    if(task.isSuccessful() && task.getResult() != null
-                        && task.getResult().getDocuments().size() > 0) {
-
-                        DocumentSnapshot documentSnapshot = task.getResult().getDocuments().get(0);
+                    if (task.isSuccessful()) {
                         preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true);
-                        preferenceManager.putString(Constants.KEY_USER_ID, documentSnapshot.getId());
-                        preferenceManager.putString(Constants.KEY_NAME, documentSnapshot.getString(Constants.KEY_NAME));
-                        preferenceManager.putString(Constants.KEY_IMAGE, documentSnapshot.getString(Constants.KEY_IMAGE));
 
+                        String userauth = firebaseAuth.getCurrentUser().getUid();
+                        setCurrentUser(userauth);
+
+                        showToast("Connexion reussie");
                         Intent intent = new Intent(getApplicationContext(), Recupereinfo.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
-                    }else{
+                    } else {
                         loading(false);
                         showToast("Unable to log in");
-
                     }
                 });
     }
@@ -86,15 +95,15 @@ public class LogInActivity extends AppCompatActivity {
     }
 
     private boolean isValideLoginDetails() {
-        if (binding.inputname.getText().toString().trim().isEmpty()) {
-            showToast("Enter name");
+
+        if (binding.inputemail.getText().toString().trim().isEmpty()) {
+            showToast("Enter email");
             return false;
-        } else if (binding.inputphone.getText().toString().trim().isEmpty()) {
-            showToast("Enter phone number");
+        } else if (binding.inputpassword.getText().toString().trim().isEmpty()) {
+            showToast("Enter password");
             return false;
         } else {
            return true;
         }
     }
-
 }

@@ -75,46 +75,55 @@ public class AccountMedActivity extends AppCompatActivity {
 
     private void CreateAccount() {
         loading(true);
-        editTextEmail =findViewById(R.id.email);
-        String email= String.valueOf(editTextEmail.getText());
+
+        String email= binding.email.getText().toString();
+        String password= binding.password.getText().toString();
         FirebaseFirestore database = FirebaseFirestore.getInstance();
         HashMap<String, Object> user = new HashMap<>();
+
         firebaseAuth = FirebaseAuth.getInstance();
-        firebaseAuth.createUserWithEmailAndPassword(email, String.valueOf(124554));
-        FirebaseUser userauth = firebaseAuth.getCurrentUser();
+        firebaseAuth.createUserWithEmailAndPassword(email,password)
+                .addOnCompleteListener(task->{
+                    if (task.isSuccessful()) {
+                        FirebaseUser userauth = firebaseAuth.getCurrentUser();
+                        if(userauth != null){
+                            String userId = userauth.getUid();
+                            user.put(Constants.KEY_IMAGE,encodedImage);
+                            user.put(Constants.KEY_NAME,binding.inputname.getText().toString());
+                            user.put(Constants.KEY_PHONE,binding.inputTel.getText().toString());
+                            user.put(Constants.KEY_EXPERIENCE,binding.inputFormation.getText().toString());
+                            user.put(Constants.KEY_PRICE_CHAT,binding.inputPriceChat.getText().toString());
+                            user.put(Constants.KEY_PRICE_VOICE_CALL,binding.inputPriceVoice.getText().toString());
+                            user.put(Constants.KEY_PRICE_VIDEO_CALL,binding.inputPriceVideo.getText().toString());
+                            user.put(Constants.KEY_USER_ID, userId);
 
-        String userId = userauth.getUid();
-        user.put(Constants.KEY_IMAGE,encodedImage);
-        user.put(Constants.KEY_NAME,binding.inputname.getText().toString());
-        user.put(Constants.KEY_PHONE,binding.inputTel.getText().toString());
-        user.put(Constants.KEY_EXPERIENCE,binding.inputFormation.getText().toString());
-        user.put(Constants.KEY_PRICE_CHAT,binding.inputPriceChat.getText().toString());
-        user.put(Constants.KEY_PRICE_VOICE_CALL,binding.inputPriceVoice.getText().toString());
-        user.put(Constants.KEY_PRICE_VIDEO_CALL,binding.inputPriceVideo.getText().toString());
-        user.put(Constants.KEY_Email, email);
-        user.put(Constants.KEY_USER_ID, userId);
-        database.collection(Constants.KEY_COLLECTION_DOCTORS)
-                .add(user)
-                .addOnSuccessListener(documentReference -> {
-                    loading(false);
-                    preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN,true);
-                    preferenceManager.putString(Constants.KEY_USER_ID, documentReference.getId());
+                            database.collection(Constants.KEY_COLLECTION_DOCTORS)
+                                    .add(user)
+                                    .addOnSuccessListener(documentReference -> {
+                                        loading(false);
+                                        preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN,true);
+                                        preferenceManager.putString(Constants.KEY_USER_ID, documentReference.getId());
 
-                    preferenceManager.putString(Constants.KEY_IMAGE,encodedImage);
-                    preferenceManager.putString(Constants.KEY_NAME, binding.inputname.getText().toString());
-                    preferenceManager.putString(Constants.KEY_PHONE,binding.inputTel.getText().toString());
-                    preferenceManager.putString(Constants.KEY_EXPERIENCE,binding.inputFormation.getText().toString());
-                    preferenceManager.putString(Constants.KEY_PRICE_CHAT,binding.inputPriceChat.getText().toString());
-                    preferenceManager.putString(Constants.KEY_PRICE_VOICE_CALL,binding.inputPriceVoice.getText().toString());
-                    preferenceManager.putString(Constants.KEY_PRICE_VIDEO_CALL,binding.inputPriceVideo.getText().toString());
+                                        preferenceManager.putString(Constants.KEY_IMAGE,encodedImage);
+                                        preferenceManager.putString(Constants.KEY_NAME, binding.inputname.getText().toString());
+                                        preferenceManager.putString(Constants.KEY_PHONE,binding.inputTel.getText().toString());
+                                        preferenceManager.putString(Constants.KEY_EXPERIENCE,binding.inputFormation.getText().toString());
+                                        preferenceManager.putString(Constants.KEY_PRICE_CHAT,binding.inputPriceChat.getText().toString());
+                                        preferenceManager.putString(Constants.KEY_PRICE_VOICE_CALL,binding.inputPriceVoice.getText().toString());
+                                        preferenceManager.putString(Constants.KEY_PRICE_VIDEO_CALL,binding.inputPriceVideo.getText().toString());
+                                        Intent intent = new Intent(getApplicationContext(), LogInActivity.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        startActivity(intent);
+                                    })
+                                    .addOnFailureListener(exception->{
+                                        loading(false);
+                                        showToast(exception.getMessage());
+                                    });
 
-                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
-                })
-                .addOnFailureListener(exception->{
-                    loading(false);
-                    showToast(exception.getMessage());
+                        }
+                    }else{
+                        showToast("task incomplete");
+                    }
                 });
 
 
@@ -194,8 +203,8 @@ public class AccountMedActivity extends AppCompatActivity {
         }else {
             binding.btnCreate.setVisibility(View.VISIBLE);
             binding.progressBar.setVisibility(View.INVISIBLE);
-        }
-    }
+   }
+}
 
 
 

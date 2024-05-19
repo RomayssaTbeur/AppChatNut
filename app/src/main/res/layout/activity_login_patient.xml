@@ -29,7 +29,7 @@
             android:id="@+id/name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Nom d'utilisateur ..."
+            android:hint="Email d'utilisateur ..."
             android:textColor="#201F1F"
             android:inputType="textEmailAddress" />
 
