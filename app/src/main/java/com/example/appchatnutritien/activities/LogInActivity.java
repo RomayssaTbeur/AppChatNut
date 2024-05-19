@@ -8,6 +8,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.appchatnutritien.databinding.ActivityLogInBinding;
+import com.example.appchatnutritien.repository.MainRepository;
 import com.example.appchatnutritien.utlities.Constants;
 import com.example.appchatnutritien.utlities.PreferenceManager;
 import com.google.firebase.auth.FirebaseAuth;
@@ -18,6 +19,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class LogInActivity extends AppCompatActivity {
 
     private ActivityLogInBinding binding;
+    private MainRepository mainRepository;
     private PreferenceManager preferenceManager;
     private String currentUser;
     private FirebaseAuth firebaseAuth;
@@ -34,6 +36,7 @@ public class LogInActivity extends AppCompatActivity {
 //        }
         binding= ActivityLogInBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        mainRepository = MainRepository.getInstance();
         setListeners();
     }
 
@@ -71,9 +74,16 @@ public class LogInActivity extends AppCompatActivity {
                         setCurrentUser(userauth);
 
                         showToast("Connexion reussie");
-                        Intent intent = new Intent(getApplicationContext(), Recupereinfo.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
+//                        Intent intent = new Intent(getApplicationContext(), Recupereinfo.class);
+//                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                        startActivity(intent);
+                        mainRepository.login(
+                                getCurrentUser(),getApplicationContext(),()-> {
+
+                                    //if success move to call
+                                    startActivity(new Intent(LogInActivity.this, Recupereinfo.class));
+                                }
+                        );
                     } else {
                         loading(false);
                         showToast("Unable to log in");
