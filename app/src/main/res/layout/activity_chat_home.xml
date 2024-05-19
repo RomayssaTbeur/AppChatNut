@@ -48,6 +48,14 @@
                 android:textColor="#000000"
                 android:textSize="18sp"
                 tools:ignore="MissingConstraints" />
+            <ImageView
+                android:id="@+id/CallBtn"
+                android:layout_width="@dimen/_27sdp"
+                android:layout_height="@dimen/_27sdp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="16dp"
+                android:src="@drawable/baseline_videocam_24"
+                />
         </RelativeLayout>
     </LinearLayout>
 

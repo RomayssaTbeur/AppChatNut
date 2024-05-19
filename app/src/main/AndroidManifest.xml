@@ -3,18 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+
     <meta-data
         android:name="com.google.firebase.messaging.default_notification_channel_id"
         android:value="@string/default_notification_channel_id" />
-
-
-
-
-
-
-
 
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -25,6 +18,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -35,6 +29,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppChatNutritien"
         tools:targetApi="31">
+        <activity
+            android:name=".activities.CallActivity"
+            android:exported="false" />
         <activity
             android:name=".activities.Recupereinfo"
             android:exported="false" />
