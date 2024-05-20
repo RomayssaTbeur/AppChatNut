@@ -90,6 +90,8 @@ public class AccountMedActivity extends AppCompatActivity {
                             String userId = userauth.getUid();
                             user.put(Constants.KEY_IMAGE,encodedImage);
                             user.put(Constants.KEY_NAME,binding.inputname.getText().toString());
+                            user.put("email",email);
+                            user.put("password",password);
                             user.put(Constants.KEY_PHONE,binding.inputTel.getText().toString());
                             user.put(Constants.KEY_EXPERIENCE,binding.inputFormation.getText().toString());
                             user.put(Constants.KEY_PRICE_CHAT,binding.inputPriceChat.getText().toString());
