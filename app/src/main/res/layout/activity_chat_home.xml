@@ -7,7 +7,46 @@
     android:layout_height="match_parent"
 
     tools:context=".activities.ChatHomeActivity">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:id="@+id/incomingCallLayout"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
 
+        android:visibility="gone"
+        android:orientation="horizontal"
+        android:layout_alignParentTop="true"
+        >
+
+        <TextView
+            android:id="@+id/incomingNameTV"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_weight="6"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:text="someone is calling"
+            />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.5"
+            android:src="@drawable/ic_accept"
+            android:padding="15dp"
+            android:id="@+id/acceptButton"/>
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.5"
+            android:src="@drawable/ic_reject"
+            android:padding="15dp"
+            android:id="@+id/rejectButton"/>
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/t"
@@ -18,7 +57,7 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:layout_marginBottom="20dp"
-
+        android:layout_below="@id/incomingCallLayout"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="20dp"
         tools:ignore="MissingConstraints">
@@ -58,7 +97,7 @@
                 />
         </RelativeLayout>
     </LinearLayout>
-
+</RelativeLayout>
 
     <LinearLayout
         android:id="@+id/contentLayout"

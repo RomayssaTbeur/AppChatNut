@@ -37,6 +37,10 @@ import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.example.appchatnutritien.R;
+import com.example.appchatnutritien.databinding.ActivityCallBinding;
+import com.example.appchatnutritien.databinding.ActivityChatHomeBinding;
+import com.example.appchatnutritien.repository.MainRepository;
+import com.example.appchatnutritien.utlities.DataModelType;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -72,6 +76,8 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class ChatHomeActivity extends AppCompatActivity {
+    private ActivityChatHomeBinding binding;
+    private MainRepository mainRepository;
     private CustomWaveformView customWaveformView;
     private Long temps;
     private String audioFilePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/audios/recording.3gp";
@@ -108,10 +114,6 @@ public class ChatHomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-
-
-
-
         db2 = FirebaseFirestore.getInstance();
         db2.collection("messages")
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -131,15 +133,12 @@ public class ChatHomeActivity extends AppCompatActivity {
                 });
 
 
-
-
-
-
-
-
-
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat_home);
+        //setContentView(R.layout.activity_chat_home);
+        binding = ActivityChatHomeBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        mainRepository = MainRepository.getInstance();
         deleteMessage=findViewById(R.id.deleteMessage);
         deleteMessage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -223,7 +222,35 @@ public class ChatHomeActivity extends AppCompatActivity {
 
         sendButton.setOnClickListener(v -> sendMessage());
         chooseImageButton.setOnClickListener(v -> chooseImage());
+
+        //init();
     }
+
+    private void init(){
+
+        binding.CallBtn.setOnClickListener(v->{
+            mainRepository.sendCallRequest(reciveID,()->{
+                Toast.makeText(this,"couldn't find the target",Toast.LENGTH_SHORT).show();
+            });
+        });
+
+      /*mainRepository.subscribeForLatestEvent(data->{
+            if(data.getType() == DataModelType.StartCall){
+                runOnUiThread(()->{
+                    binding.incomingNameTV.setText(data.getSender()+" is calling you");
+                    binding.incomingCallLayout.setVisibility(View.VISIBLE);
+                    binding.acceptButton.setOnClickListener(v->{
+                        //start the call here
+                        mainRepository.startCall(data.getSender());
+
+                        binding.incomingCallLayout.setVisibility(View.GONE);
+                    });
+                    binding.rejectButton.setVisibility(View.VISIBLE);
+                });
+            }
+        });*/
+    }
+
 
     private Bitmap getCircularBitmap(Bitmap bitmap) {
         int width = bitmap.getWidth();
