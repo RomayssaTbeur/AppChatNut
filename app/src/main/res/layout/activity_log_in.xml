@@ -22,13 +22,43 @@
             android:layout_width="@dimen/_160sdp"
             android:layout_height="@dimen/_130sdp"
             android:src="@drawable/removenewlogo1" />
+        <!--      <EditText
+                  android:id="@+id/inputname"
+                  android:layout_width="match_parent"
+                  android:layout_height="@dimen/_45sdp"
+                  android:hint="Name"
+
+                  android:inputType="text"
+                  android:layout_marginTop="@dimen/_20sdp"
+                  android:imeOptions="actionNext"
+                  android:background="@drawable/rectangleinput"
+                  android:textSize="@dimen/_15sdp"
+                  android:paddingStart="@dimen/_15sdp"
+                  android:paddingEnd="@dimen/_15sdp"
+
+
+                  />
+              <EditText
+                  android:id="@+id/inputphone"
+                  android:layout_width="match_parent"
+                  android:layout_height="@dimen/_45sdp"
+                  android:hint="Phone number"
+                  android:inputType="number|phone"
+                  android:layout_marginTop="@dimen/_15sdp"
+                  android:imeOptions="actionDone"
+                  android:background="@drawable/rectangleinput"
+                  android:textSize="@dimen/_15sdp"
+                  android:paddingStart="@dimen/_15sdp"
+                  android:paddingEnd="@dimen/_15sdp"
+
+                  />-->
         <EditText
-            android:id="@+id/inputname"
+            android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_45sdp"
-            android:hint="Name"
+            android:hint="Email"
 
-            android:inputType="text"
+            android:inputType="textEmailAddress"
             android:layout_marginTop="@dimen/_20sdp"
             android:imeOptions="actionNext"
             android:background="@drawable/rectangleinput"
@@ -39,11 +69,11 @@
 
             />
         <EditText
-            android:id="@+id/inputphone"
+            android:id="@+id/inputpassword"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_45sdp"
-            android:hint="Phone number"
-            android:inputType="number|phone"
+            android:hint="Password"
+            android:inputType="textPassword"
             android:layout_marginTop="@dimen/_15sdp"
             android:imeOptions="actionDone"
             android:background="@drawable/rectangleinput"

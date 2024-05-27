@@ -19,8 +19,8 @@
             android:id="@+id/menu_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="19dp"
             android:layout_gravity="start"
+            android:layout_marginStart="19dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
             android:src="@drawable/ic_menu" />
@@ -32,11 +32,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/white"
             android:orientation="vertical"
             android:padding="16dp"
-            android:background="@color/white"
             tools:context=".activities.HomePatientActivity">
-
 
 
             <TextView
@@ -44,19 +43,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Welcome to our doctors"
-                android:textSize="20sp"
-                android:gravity="center"
-                android:textStyle="bold"
                 android:layout_marginTop="16dp"
-                android:textColor="@android:color/black" />
+                android:gravity="center"
+                android:text="Welcome to our doctors"
+                android:textColor="@android:color/black"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
             <SearchView
                 android:id="@+id/search_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:queryHint="Search doctors"
+                android:layout_marginTop="16dp"
                 android:iconifiedByDefault="false"
-                android:layout_marginTop="16dp"/>
+                android:queryHint="Search doctors" />
 
             <ScrollView
                 android:layout_width="match_parent"
@@ -69,7 +69,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="8dp"/>
+                    android:padding="8dp" />
 
 
             </ScrollView>
@@ -81,8 +81,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="No doctors found"
-                android:textSize="18sp"
                 android:textColor="@android:color/black"
+                android:textSize="18sp"
                 android:visibility="gone" />
 
         </LinearLayout>
@@ -96,123 +96,127 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="@android:color/white"
-        android:orientation="vertical"
-        android:gravity="center_horizontal">
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
 
         <!-- Ajoutez ici les éléments de votre menu -->
         <!-- Par exemple, les boutons Profil et Déconnexion -->
 
         <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profileImg"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:id="@+id/profileImg"
-            android:scaleType="centerCrop"
             android:layout_marginTop="30dp"
             android:background="@drawable/circle_background"
+            android:scaleType="centerCrop"
             android:src="@drawable/profillogo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical">
-        <TextView
-            android:id="@+id/titleName"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="Name"
-            android:onClick="edit"
-            android:textColor="#232222"
-            android:textSize="22sp"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            android:layout_weight="1"
-            android:textStyle="bold"
-            android:padding="12dp"
-            android:layout_marginStart="16dp"
-            app:layout_constraintEnd_toEndOf="@id/profileImg"
-            app:layout_constraintStart_toStartOf="@id/profileImg"
-            app:layout_constraintTop_toBottomOf="@id/profileImg" />
-        <ImageView
-            android:id="@+id/edit_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="edit"
-            android:layout_marginEnd="48px"
-            android:src="@drawable/baseline_mode_edit_24"
-            />
-
-
-    </LinearLayout>
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_margin="10dp"
-            android:alpha="0.5"
-            android:background="@color/lavender" />
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:gravity="center_vertical">
-
-    <TextView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:textColor="@color/black"
-        android:text="Déconnexion"
-        android:onClick="logout"
-        android:textStyle="bold"
-        android:padding="12dp"
-        android:layout_marginStart="16dp"/>
-
-    <ImageView
-        android:id="@+id/logout_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="logout"
-        android:layout_marginEnd="48px"
-        android:src="@drawable/baseline_logout_24"
-         />
-
-</LinearLayout>
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_margin="10dp"
-            android:alpha="0.5"
-            android:background="@color/lavender" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/titleName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:onClick="edit"
+                android:padding="12dp"
+
+                android:text="Name"
+                android:textColor="#232222"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@id/profileImg"
+                app:layout_constraintStart_toStartOf="@id/profileImg"
+                app:layout_constraintTop_toBottomOf="@id/profileImg" />
+
+            <ImageView
+                android:id="@+id/edit_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="48px"
+                android:onClick="edit"
+                android:src="@drawable/baseline_mode_edit_24" />
+
+
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_margin="10dp"
+            android:alpha="0.5"
+            android:background="@color/lavender" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
                 android:layout_weight="1"
+                android:onClick="logout"
+                android:padding="12dp"
+                android:text="Déconnexion"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/logout_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="48px"
+                android:onClick="logout"
+                android:src="@drawable/baseline_logout_24" />
+
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_margin="10dp"
+            android:alpha="0.5"
+            android:background="@color/lavender" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_weight="1"
+                android:onClick="delete"
+                android:padding="12dp"
                 android:text="Supprimer le Compte"
                 android:textColor="#DE0202"
-                android:onClick="delete"
-                android:textStyle="bold"
-                android:padding="12dp"
-                android:layout_marginStart="16dp"/>
+                android:textStyle="bold" />
 
             <ImageView
                 android:id="@+id/delete_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="delete"
                 android:layout_marginEnd="48px"
-                android:src="@drawable/baseline_delete_forever_24"
-                />
+                android:onClick="delete"
+                android:src="@drawable/baseline_delete_forever_24" />
 
         </LinearLayout>
-       
+
 
     </LinearLayout>
 

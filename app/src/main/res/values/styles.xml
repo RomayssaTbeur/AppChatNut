@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="SmallRatingBar" parent="@android:style/Widget.RatingBar">
+        <item name="android:scaleX">0.05</item> <!-- Réduire la largeur des étoiles -->
+        <item name="android:scaleY">0.05</item> <!-- Réduire la hauteur des étoiles -->
+    </style>
+
+</resources>

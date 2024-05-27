@@ -9,6 +9,7 @@ pluginManagement {
         }
         mavenCentral()
         gradlePluginPortal()
+
     }
 }
 dependencyResolutionManagement {
@@ -16,8 +17,12 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+
+        maven { url = uri("https://storage.zego.im/maven") }
+        maven { url = uri("https://www.jitpack.io") }
     }
 }
+
 
 rootProject.name = "App chat nutritien"
 include(":app")

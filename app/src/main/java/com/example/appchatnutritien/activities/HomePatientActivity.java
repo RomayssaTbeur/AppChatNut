@@ -60,6 +60,8 @@ public class HomePatientActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private ImageView menuIcon;
 
+    private String userId;
+    private TextView averageRatingTextView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,16 +112,27 @@ public class HomePatientActivity extends AppCompatActivity {
             }
         });
 
+        // Récupérer l'ID de l'utilisateur actuel
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            userId = user.getUid();
+        } else {
+            // Gérer le cas où l'utilisateur n'est pas connecté
+            // Par exemple, rediriger vers l'écran de connexion
+            startActivity(new Intent(HomePatientActivity.this, LoginPatientActivity.class));
+            finish(); // Fermer cette activité pour empêcher l'utilisateur de revenir ici en arrière
+        }
 
 
     }
+
+
 
     private void filterDoctors(String query) {
         List<Map<String, Object>> filteredList = new ArrayList<>();
         for (Map<String, Object> doctor : doctorList) {
             String name = (String) doctor.get("name");
-            assert name != null;
-            if (name.toLowerCase().contains(query.toLowerCase())) {
+            if (name != null && name.toLowerCase().contains(query.toLowerCase())) {
                 filteredList.add(doctor);
             }
         }
@@ -212,34 +225,59 @@ public class HomePatientActivity extends AppCompatActivity {
             });
         }
     }
+    private void setupFirestoreListenerForDoctor(String doctorUserId) {
+        db.collection("doctors")
+                .whereEqualTo("userId", doctorUserId)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots,
+                                        @Nullable FirebaseFirestoreException e) {
+                        if (e != null) {
+                            Log.w(TAG, "Listen failed.", e);
+                            return;
+                        }
+
+                        if (queryDocumentSnapshots != null && !queryDocumentSnapshots.isEmpty()) {
+                            DocumentSnapshot documentSnapshot = queryDocumentSnapshots.getDocuments().get(0);
+                            Double averageRating = documentSnapshot.getDouble("averageRating");
+
+                            // Trouvez le médecin correspondant dans doctorList
+                            for (Map<String, Object> doctor : doctorList) {
+                                if (doctorUserId.equals(doctor.get("userId"))) {
+                                    // Mettre à jour l'interface utilisateur
+                                    updateDoctorRatingInView(doctorUserId, averageRating);
+                                    break;
+                                }
+                            }
+                        } else {
+                            Log.d(TAG, "No matching documents.");
+                        }
+                    }
+                });
+    }
+
 
     private void loadDoctors() {
+
+
         db.collection("doctors")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
                         if (task.isSuccessful()) {
 
                             doctorList.clear();
 
                            for (DocumentSnapshot document : task.getResult()) {
-                                Map<String, Object> doctorData = document.getData();
+                               Map<String, Object> doctorData = document.getData();
 
-                                doctorList.add(doctorData);
-                            }
-                           /* for (DocumentSnapshot document : task.getResult()) {
-                                Map<String, Object> doctorData = document.getData();
-                                assert doctorData != null;
-                                String name = (String) doctorData.get("name");
-                                String imageUrl = (String) doctorData.get("image");
-                                String experience = (String) doctorData.get("experience");
+                               doctorList.add(doctorData);
 
-                                // Créez un objet com.example.appchatnutritien.activities.Doctor avec ces données
-
-                                doctorList.add(doctorData);
-                            }*/
-
+                               // Configurer l'écouteur Firestore pour chaque médecin
+                               setupFirestoreListenerForDoctor((String) doctorData.get("userId"));
+                           }
 
                             displayDoctors(doctorList);
                         } else {
@@ -250,6 +288,46 @@ public class HomePatientActivity extends AppCompatActivity {
                 });
     }
 
+    // Méthode pour afficher la moyenne des évaluations pour un médecin donné
+    private void displayDoctorRating(LinearLayout doctorLayout, String userId) {
+        TextView doctorRatingTextView = doctorLayout.findViewById(R.id.doctor_rating_text);
+
+        // Récupérer la moyenne des évaluations pour le médecin correspondant à userId
+        db.collection("doctors")
+                .whereEqualTo("userId", userId)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                        Double averageRating = documentSnapshot.getDouble("averageRating");
+                        if (averageRating != null) {
+                            doctorRatingTextView.setText(String.format("%.1f", averageRating));
+                        } else {
+                            doctorRatingTextView.setText("N/A");
+                        }
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(HomePatientActivity.this, "Failed to load average rating", Toast.LENGTH_SHORT).show();
+                });
+    }
+    private void updateDoctorRatingInView(String userId, Double averageRating) {
+        for (int i = 0; i < doctorsLayout.getChildCount(); i++) {
+            View doctorView = doctorsLayout.getChildAt(i);
+
+            // Rechercher le TextView invisible contenant l'ID utilisateur
+            TextView doctorUserIdTextView = (TextView) doctorView.findViewById(R.id.doctor_user_id);
+            if (doctorUserIdTextView != null && userId.equals(doctorUserIdTextView.getText().toString())) {
+                // Trouver et mettre à jour le TextView de l'évaluation du médecin
+                TextView doctorRatingTextView = doctorView.findViewById(R.id.doctor_rating_text);
+                if (averageRating != null) {
+                    doctorRatingTextView.setText(String.format("%.1f", averageRating));
+                } else {
+                    doctorRatingTextView.setText("N/A");
+                }
+                break;
+            }
+        }
+    }
 
 
     private void displayDoctors(List<Map<String, Object>> filteredDoctors) {
@@ -270,7 +348,11 @@ public class HomePatientActivity extends AppCompatActivity {
                 nameTextView.setText((String) doctor.get("name"));
 
                 TextView experienceTextView = doctorLayout.findViewById(R.id.doctor_experience);
-                experienceTextView.setText("Expérience: " + (String) doctor.get("experiences"));
+                experienceTextView.setText("Expérience: " + (String) doctor.get("experiences")+ " years");
+
+                TextView userIdTextView = doctorLayout.findViewById(R.id.doctor_user_id);
+                String userId = (String) doctor.get("userId");
+                userIdTextView.setText(userId);
 
                 ImageView imageView = doctorLayout.findViewById(R.id.doctor_image);
                 String encodedImage = (String) doctor.get("image");
@@ -285,8 +367,19 @@ public class HomePatientActivity extends AppCompatActivity {
                     // Afficher l'image par défaut si la chaîne encodée en base64 est vide ou null
                     imageView.setImageResource(R.drawable.profillogo); // Remplacez "default_doctor_image" par le nom de votre ressource d'image par défaut
                 }
+                // Ajouter un TextView invisible pour stocker l'ID utilisateur du médecin
+                TextView doctorUserIdTextView = new TextView(this);
+                doctorUserIdTextView.setText(userId);
+                doctorUserIdTextView.setVisibility(View.GONE);
+                doctorLayout.addView(doctorUserIdTextView);
+
+
 
                 doctorsLayout.addView(doctorLayout);
+                displayDoctorRating(doctorLayout, userId);
+
+
+
 
                 Button button = doctorLayout.findViewById(R.id.book_appointment_button);
                 button.setOnClickListener(new View.OnClickListener() {
@@ -330,55 +423,6 @@ public class HomePatientActivity extends AppCompatActivity {
             }
         }
     }
-
-   /* private void displayDoctors(List<Map<String, Object>> filteredDoctors) {
-
-
-        doctorsLayout.removeAllViews();
-
-        if (doctorList.isEmpty()) {
-            emptyMessageTextView.setVisibility(View.VISIBLE);
-        } else {
-            emptyMessageTextView.setVisibility(View.GONE);
-
-            LayoutInflater inflater = LayoutInflater.from(this);
-
-            for (Map<String, Object> doctor : doctorList) {
-                LinearLayout doctorLayout = (LinearLayout) inflater.inflate(R.layout.doctor_item_layout, doctorsLayout, false);
-
-                TextView nameTextView = doctorLayout.findViewById(R.id.doctor_name);
-                nameTextView.setText((String) doctor.get("name"));
-
-                TextView experienceTextView = doctorLayout.findViewById(R.id.doctor_experience);
-                experienceTextView.setText("Expérience: " + (String) doctor.get("experiences"));
-
-                ImageView imageView = doctorLayout.findViewById(R.id.doctor_image);
-                String encodedImage = (String) doctor.get("image");
-                if (encodedImage != null && !encodedImage.isEmpty()) {
-                    // Décoder la chaîne encodée en base64 en un tableau de bytes
-                    byte[] imageData = Base64.decode(encodedImage, Base64.DEFAULT);
-                    // Convertir les bytes en un objet Bitmap
-                    Bitmap bitmap = BitmapFactory.decodeByteArray(imageData, 0, imageData.length);
-                    // Afficher le Bitmap dans l'ImageView
-                    imageView.setImageBitmap(bitmap);
-                } else {
-                    // Afficher l'image par défaut si la chaîne encodée en base64 est vide ou null
-                    imageView.setImageResource(R.drawable.profillogo); // Remplacez "default_doctor_image" par le nom de votre ressource d'image par défaut
-                }
-
-                doctorsLayout.addView(doctorLayout);
-
-                Button button = doctorLayout.findViewById(R.id.book_appointment_button);
-                button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // Action lors du clic sur le bouton de prise de rendez-vous
-                    }
-                });
-            }
-
-        }
-    }*/
 
     public void edit(View view) {
         // Créer un Intent pour démarrer votre nouvelle activité

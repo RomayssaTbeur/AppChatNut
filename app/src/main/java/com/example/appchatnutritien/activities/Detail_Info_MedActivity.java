@@ -1,5 +1,6 @@
 package com.example.appchatnutritien.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -8,8 +9,17 @@ import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
+import com.google.firebase.firestore.Transaction;
+
 
 
 import androidx.annotation.Nullable;
@@ -56,6 +66,11 @@ public class Detail_Info_MedActivity extends AppCompatActivity {
     private Button btnPayerVoiceCall;
     private Button btnPayerVideoCall;
 
+    private RatingBar ratingBar;
+    private TextView averageRatingValue;
+    private ImageView submitRatingButton;
+
+    @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_detail_info_med);
@@ -89,6 +104,24 @@ public class Detail_Info_MedActivity extends AppCompatActivity {
         btnPayerMessaging = findViewById(R.id.btnPayerMessage);
         btnPayerVideoCall = findViewById(R.id.btnPayerVideoCall);
         btnPayerVoiceCall = findViewById(R.id.btnPayerVoiceCall);
+
+        ratingBar = findViewById(R.id.ratingBar);
+        submitRatingButton = findViewById(R.id.submitRatingButton);
+        averageRatingValue = findViewById(R.id.averageRatingValue);
+
+
+        // Load the average rating
+        loadAverageRating();
+
+        // Set up the submit rating button
+        submitRatingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                submitRating();
+            }
+        });
+
+
         db.collection("Payments")
                 .whereEqualTo("Doctor", recivesId)
                 .whereEqualTo("Patient", userId) .whereEqualTo("Service","Messaging")
@@ -191,7 +224,7 @@ public class Detail_Info_MedActivity extends AppCompatActivity {
         TextView emailTextView = findViewById(R.id.titleemail);
         emailTextView.setText(doctorEmail);
         TextView experienceTextView = findViewById(R.id.experiences);
-        experienceTextView.setText(doctorExperience);
+        experienceTextView.setText(doctorExperience +" years");
 
         TextView priceMessagingTextView = findViewById(R.id.priceMessaging);
         priceMessagingTextView.setText(priceMessaging + " DOLAR");
@@ -220,6 +253,63 @@ public class Detail_Info_MedActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void loadAverageRating() {
+        db.collection("doctors").document(recivesId)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        double ratingsSum = documentSnapshot.getDouble("ratingsSum");
+                        long ratingsCount = documentSnapshot.getLong("ratingsCount");
+                        double average = ratingsCount == 0 ? 0 : ratingsSum / ratingsCount;
+                        averageRatingValue.setText(String.format("%.1f", average));
+
+                        // Mettre à jour la moyenne dans Firestore
+                        updateAverageRatingInFirestore(recivesId, average);
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Failed to load rating", Toast.LENGTH_SHORT).show();
+                });
+    }
+    private void submitRating() {
+        float rating = ratingBar.getRating();
+        db.runTransaction((Transaction.Function<Void>) transaction -> {
+            DocumentReference doctorRef = db.collection("doctors").document(recivesId);
+            DocumentSnapshot snapshot = transaction.get(doctorRef);
+
+            double ratingsSum = snapshot.getDouble("ratingsSum");
+            long ratingsCount = snapshot.getLong("ratingsCount");
+
+            ratingsSum += rating;
+            ratingsCount += 1;
+
+            transaction.update(doctorRef, "ratingsSum", ratingsSum);
+            transaction.update(doctorRef, "ratingsCount", ratingsCount);
+
+            double average = ratingsCount == 0 ? 0 : ratingsSum / ratingsCount;
+            updateAverageRatingInFirestore(recivesId,average); // Appel de la méthode pour mettre à jour la moyenne dans Firestore
+
+            return null;
+        }).addOnSuccessListener(aVoid -> {
+            Toast.makeText(this, "Rating submitted", Toast.LENGTH_SHORT).show();
+            loadAverageRating(); // Refresh the average rating display
+        }).addOnFailureListener(e -> {
+            Toast.makeText(this, "Failed to submit rating", Toast.LENGTH_SHORT).show();
+        });
+    }
+
+    private void updateAverageRatingInFirestore(String doctorId ,double average) {
+        DocumentReference doctorRef = db.collection("doctors").document(doctorId);
+        doctorRef.update("averageRating", average)
+                .addOnSuccessListener(aVoid -> {
+                    // La moyenne a été mise à jour avec succès dans Firestore
+                })
+                .addOnFailureListener(e -> {
+                    // Gérer les erreurs lors de la mise à jour de la moyenne dans Firestore
+                });
+    }
+
 
     private void getPayment(String montant) {
                 Map<String, Object> paymentCollection = new HashMap<>();

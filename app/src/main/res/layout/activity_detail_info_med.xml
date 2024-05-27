@@ -1,30 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+<androidx.constraintlayout.widget.ConstraintLayout
     android:id="@+id/DetailMed"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/profilebkg"
-   tools:context=".activities.Detail_Info_MedActivity">
+    tools:context=".activities.Detail_Info_MedActivity">
+
     <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profileImg"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:id="@+id/profileImg"
+        android:layout_marginTop="30dp"
         android:background="@drawable/circle_background"
         android:scaleType="centerCrop"
-        android:layout_marginTop="30dp"
 
-    android:src="@drawable/profillogo"
+        android:src="@drawable/profillogo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/titleName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/titleName"
         android:layout_marginTop="10dp"
         android:text="Name"
         android:textColor="#232222"
@@ -32,35 +38,36 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@id/profileImg"
         app:layout_constraintStart_toStartOf="@id/profileImg"
-        app:layout_constraintTop_toBottomOf="@id/profileImg"/>
+        app:layout_constraintTop_toBottomOf="@id/profileImg" />
 
     <TextView
+        android:id="@+id/titletele"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/titletele"
         android:text="Telephone"
         android:textColor="#4A4A4A"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="@id/titleName"
         app:layout_constraintStart_toStartOf="@id/titleName"
-        app:layout_constraintTop_toBottomOf="@id/titleName"/>
+        app:layout_constraintTop_toBottomOf="@id/titleName" />
     <TextView
+        android:id="@+id/titleemail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/titleemail"
         android:text="email"
         android:textColor="#4A4A4A"
-        android:textSize="15sp"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="@id/titletele"
         app:layout_constraintStart_toStartOf="@id/titletele"
-        app:layout_constraintTop_toBottomOf="@id/titletele"/>
+        app:layout_constraintTop_toBottomOf="@id/titletele" />
+
 
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="24dp"
         android:background="@drawable/white_background"
         android:orientation="vertical"
@@ -68,7 +75,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/titletele">
+        app:layout_constraintTop_toBottomOf="@id/titleemail">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -108,105 +115,7 @@
             </LinearLayout>
 
         </LinearLayout>
-        <!--  <LinearLayout
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:orientation="horizontal">
 
-              <LinearLayout
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_margin="10dp"
-                  android:layout_weight="1"
-                  android:elevation="5dp"
-                  android:padding="8dp"
-                  android:orientation="vertical">
-
-                  <TextView
-                      android:layout_width="80dp"
-                      android:layout_height="60dp"
-                      android:id="@+id/postsNumber"
-                      android:text="27"
-                      android:gravity="center"
-                      android:textAlignment="center"
-                      android:textColor="@color/lavender"
-                      android:textSize="26sp"
-                      android:textStyle="bold"/>
-
-                  <TextView
-                      android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:id="@+id/posts"
-                      android:text="Posts"
-                      android:textAlignment="center"
-                      android:textColor="@color/lavender"
-                      android:textSize="16sp"/>
-
-              </LinearLayout>
-
-              <LinearLayout
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_margin="10dp"
-                  android:layout_weight="1"
-                  android:elevation="5dp"
-                  android:padding="8dp"
-                  android:orientation="vertical">
-
-                  <TextView
-                      android:layout_width="80dp"
-                      android:layout_height="60dp"
-                      android:id="@+id/followersNo"
-                      android:text="455"
-                      android:gravity="center"
-                      android:textAlignment="center"
-                      android:textColor="@color/lavender"
-                      android:textSize="26sp"
-                      android:textStyle="bold"/>
-
-                  <TextView
-                      android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:id="@+id/followers"
-                      android:text="Followers"
-                      android:textAlignment="center"
-                      android:textColor="@color/lavender"
-                      android:textSize="16sp"/>
-
-              </LinearLayout>
-
-              <LinearLayout
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_margin="10dp"
-                  android:layout_weight="1"
-                  android:elevation="5dp"
-                  android:padding="8dp"
-                  android:orientation="vertical">
-
-                  <TextView
-                      android:layout_width="80dp"
-                      android:layout_height="60dp"
-                      android:id="@+id/followingNo"
-                      android:text="413"
-                      android:gravity="center"
-                      android:textAlignment="center"
-                      android:textColor="@color/lavender"
-                      android:textSize="26sp"
-                      android:textStyle="bold"/>
-
-                  <TextView
-                      android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:id="@+id/following"
-                      android:text="Following"
-                      android:textAlignment="center"
-                      android:textColor="@color/lavender"
-                      android:textSize="16sp"/>
-
-              </LinearLayout>
-
-          </LinearLayout>          -->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -331,72 +240,193 @@
             android:layout_margin="10dp"
             android:alpha="0.5"
             android:background="@color/lavender" />
-
-        <LinearLayout
+        <TextView
+            android:id="@+id/doctorRatingLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Evaluation of the doctor"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/linearLayout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_gravity="center_horizontal"/>
 
-            android:layout_marginLeft="62dp"
-            android:orientation="vertical"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:orientation="horizontal"
+            android:padding="2dp">
 
-            tools:ignore="MissingConstraints">
-            <Button
-                android:layout_width="230dp"
-                android:layout_height="50dp"
-                android:id="@+id/btnPayerMessage"
-                android:layout_marginTop="30dp"
-                android:text="Payer for Messaging"
-                android:textSize="18sp"
-                app:cornerRadius = "10dp"
-                android:backgroundTint="#5FE699"
+            <RatingBar
+                android:id="@+id/ratingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginTop="10dp"
+                android:numStars="5"
 
-                />
-            <Button
-                android:layout_width="230dp"
-                android:layout_height="50dp"
-                android:id="@+id/btnPayerVideoCall"
+                android:stepSize="1.0" />
 
-                android:text="Payer for Viedo Call"
-                android:textSize="18sp"
-                app:cornerRadius = "10dp"
-                android:backgroundTint="#5FE699"
-                android:layout_marginBottom="5dp"
-
-                />
-            <Button
-                android:layout_width="230dp"
-                android:layout_height="50dp"
-                android:id="@+id/btnPayerVoiceCall"
-
-                android:text="Payer for Voice call"
-                android:textSize="18sp"
-
-                app:cornerRadius = "10dp"
-                android:backgroundTint="#5FE699"
-
-                />
-
+            <ImageView
+                android:id="@+id/submitRatingButton"
+                android:layout_width="67dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:src="@drawable/baseline_send_24"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ratingBar" />
         </LinearLayout>
+
+        <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:orientation="horizontal"
+        android:padding="8dp">
+        <TextView
+            android:id="@+id/averageRatingLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Note moyenne :"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:layout_weight="1"
+            android:layout_gravity="center_horizontal"/>
+
+        <TextView
+            android:id="@+id/averageRatingValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="0.0"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_weight="1"
+            app:layout_constraintTop_toBottomOf="@id/averageRatingLabel"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_gravity="center_horizontal"/>
     </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/textpayer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="2dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/linearLayout"
+        tools:ignore="MissingConstraints"
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal">
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_margin="10dp"
+            android:alpha="0.5"
+            android:background="@color/lavender"
+            android:layout_weight="3" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Payer for"
+            android:textColor="@color/grey"
+            android:textSize="18sp"
+            android:layout_weight="1"/>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_margin="10dp"
+            android:alpha="0.5"
+            android:background="@color/lavender"
+            android:layout_weight="3" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/payer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="2dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textpayer"
+        tools:ignore="MissingConstraints">
+
+        <Button
+            android:id="@+id/btnPayerMessage"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:backgroundTint="#5FE699"
+            android:text="Messaging"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            app:cornerRadius="@dimen/_8sdp"
+            android:layout_marginEnd="2dp"/>
+
+        <Button
+            android:id="@+id/btnPayerVideoCall"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:backgroundTint="#5FE699"
+            android:textColor="@color/white"
+            android:text="Video"
+            android:textSize="12sp"
+            app:cornerRadius="@dimen/_8sdp"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"/>
+
+        <Button
+            android:id="@+id/btnPayerVoiceCall"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:backgroundTint="#5FE699"
+            android:textColor="@color/white"
+            android:text="Voice"
+            android:textSize="12sp"
+            app:cornerRadius="@dimen/_8sdp"
+            android:layout_marginStart="2dp"/>
+
+    </LinearLayout>
+
     <Button
+        android:id="@+id/messageButton"
         android:layout_width="0dp"
         android:layout_height="60dp"
-        android:id="@+id/messageButton"
-        android:gravity="center"
-        android:text="Envoyer un message"
-        android:textSize="18sp"
-        app:cornerRadius = "20dp"
         android:backgroundTint="#5FE699"
+        android:text="Envoyer un message"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:cornerRadius="@dimen/_8sdp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/linearLayout"
-        app:layout_constraintStart_toStartOf="@id/linearLayout"
-        app:layout_constraintTop_toBottomOf="@id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/payer"
 
         />
 
 
-
-
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

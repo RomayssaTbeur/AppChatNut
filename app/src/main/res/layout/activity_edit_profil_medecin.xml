@@ -5,13 +5,10 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:clipToPadding="false"
     android:padding="@dimen/_24sdp"
     android:scrollbars="none"
-
-    android:background="@drawable/removegreen"
-    tools:context=".activities.AccountMedActivity">
+    tools:context=".activities.EditProfilMedecinActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,11 +16,14 @@
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
-
-        <ImageView
-            android:layout_width="@dimen/_150sdp"
-            android:layout_height="@dimen/_120sdp"
-            android:src="@drawable/removenewlogo1" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Edit Profile"
+            android:textSize="30sp"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            android:textColor="@color/BtnBackground"/>
 
         <FrameLayout
             android:id="@+id/layoutImage"
@@ -45,12 +45,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Add Image"
+                android:text="Edit Image"
                 android:textColor="@color/greenfat7"
                 />
         </FrameLayout>
         <EditText
-            android:id="@+id/email"
+            android:id="@+id/editEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Email"
@@ -61,15 +61,17 @@
 
             />
         <EditText
-            android:id="@+id/inputPassword"
+            android:id="@+id/editPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Password"
-            android:textColor="@color/black"
             android:inputType="textPassword"
-            android:imeOptions="actionNext"/>
+            android:textColor="@color/black"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:imeOptions="actionNext"
+            />
         <EditText
-            android:id="@+id/inputname"
+            android:id="@+id/editName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Name"
@@ -81,7 +83,7 @@
             />
 
         <EditText
-            android:id="@+id/inputTel"
+            android:id="@+id/editPhone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Phone number"
@@ -91,11 +93,11 @@
             android:imeOptions="actionNext"
             />
         <EditText
-            android:id="@+id/inputFormation"
+            android:id="@+id/editExperience"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Training and experiences"
-            android:inputType="textMultiLine"
+            android:hint="Experience"
+            android:inputType="text"
             android:lines="2"
             android:minLines="1"
             android:maxLines="10"
@@ -105,37 +107,39 @@
             android:layout_marginTop="@dimen/_6sdp"
             android:imeOptions="actionNext"
             />
-        <EditText
-            android:id="@+id/inputPriceChat"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Price to messaging"
-            android:inputType="number"
-            android:textColor="@color/black"
-            android:layout_marginTop="@dimen/_6sdp"
-            android:imeOptions="actionNext"
-            />
-        <EditText
-            android:id="@+id/inputPriceVoice"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Price to voice call"
-            android:inputType="number"
-            android:textColor="@color/black"
-            android:layout_marginTop="@dimen/_6sdp"
-            android:imeOptions="actionNext"
-            />
-        <EditText
-            android:id="@+id/inputPriceVideo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/price_to_video_call"
-            android:inputType="number"
-            android:textColor="@color/black"
-            android:layout_marginTop="@dimen/_6sdp"
-            android:imeOptions="actionDone"
 
+        <EditText
+            android:id="@+id/editMessagingPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Price Messaging"
+            android:inputType="number"
+            android:textColor="@color/black"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:imeOptions="actionNext"
             />
+        <EditText
+            android:id="@+id/editVoicePrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Price Voice Call"
+            android:inputType="number"
+            android:textColor="@color/black"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:imeOptions="actionNext"
+            />
+        <EditText
+            android:id="@+id/editVideoPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Price Video Call"
+            android:inputType="number"
+            android:textColor="@color/black"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:imeOptions="actionNext"
+            />
+
+
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -144,10 +148,10 @@
             >
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnCreate"
+                android:id="@+id/btnEdit"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_40sdp"
-                android:text="Create your account"
+                android:text="Edit"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_13ssp"
                 android:textStyle="bold"
@@ -164,18 +168,7 @@
 
         </FrameLayout>
 
-        <TextView
-            android:id="@+id/lienLogin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_1sdp"
-            android:text="Do you have already an account?"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_11sdp"
 
-
-            />
     </LinearLayout>
 
 </ScrollView>

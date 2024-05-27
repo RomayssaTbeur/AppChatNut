@@ -8,120 +8,135 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.Toast;
-
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.example.appchatnutritien.R;
 import com.example.appchatnutritien.databinding.ActivityAccountMedBinding;
-import com.example.appchatnutritien.databinding.ActivityLogInBinding;
 import com.example.appchatnutritien.utlities.Constants;
 import com.example.appchatnutritien.utlities.PreferenceManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.Map;
 
 public class AccountMedActivity extends AppCompatActivity {
 
     private ActivityAccountMedBinding binding;
     private String encodedImage;
     private PreferenceManager preferenceManager;
-    private EditText editTextEmail;
-    private FirebaseAuth firebaseAuth;
+    private FirebaseFirestore db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // EdgeToEdge.enable(this);
-        /*ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });*/
         binding = ActivityAccountMedBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         preferenceManager = new PreferenceManager(getApplicationContext());
+        db = FirebaseFirestore.getInstance();
         setListeners();
-
     }
 
     private void setListeners() {
-        binding.lienLogin.setOnClickListener(v ->
-                startActivity(new Intent(getApplicationContext(), LogInActivity.class)));
-        binding.btnCreate.setOnClickListener(v->{
-            if(isDataValide()){
-                CreateAccount();
+        binding.lienLogin.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), LogInActivity.class)));
+        binding.btnCreate.setOnClickListener(v -> {
+            if (isDataValid()) {
+                createAccount();
             }
         });
-        binding.layoutImage.setOnClickListener(v->{
+        binding.layoutImage.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             pickImage.launch(intent);
         });
     }
 
-    private void CreateAccount() {
+    private void createAccount() {
         loading(true);
-        editTextEmail =findViewById(R.id.email);
-        String email= String.valueOf(editTextEmail.getText());
+
+        String email = binding.email.getText().toString().trim();
+        String password = binding.inputPassword.getText().toString().trim();
+
+        if (email.isEmpty() || password.isEmpty()) {
+            showToast("Email and password must not be empty");
+            loading(false);
+            return;
+        }
+
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        firebaseAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+                        if (firebaseUser != null) {
+                            String userId = firebaseUser.getUid();
+                            saveUserDataToFirestore(userId, email);
+
+                        }
+                    } else {
+                        loading(false);
+                        showToast(task.getException().getMessage());
+                    }
+                });
+    }
+
+    private void saveUserDataToFirestore(String userId, String email) {
         FirebaseFirestore database = FirebaseFirestore.getInstance();
         HashMap<String, Object> user = new HashMap<>();
-        firebaseAuth = FirebaseAuth.getInstance();
-        firebaseAuth.createUserWithEmailAndPassword(email, String.valueOf(124554));
-        FirebaseUser userauth = firebaseAuth.getCurrentUser();
-
-        String userId = userauth.getUid();
-        user.put(Constants.KEY_IMAGE,encodedImage);
-        user.put(Constants.KEY_NAME,binding.inputname.getText().toString());
-        user.put(Constants.KEY_PHONE,binding.inputTel.getText().toString());
-        user.put(Constants.KEY_EXPERIENCE,binding.inputFormation.getText().toString());
-        user.put(Constants.KEY_PRICE_CHAT,binding.inputPriceChat.getText().toString());
-        user.put(Constants.KEY_PRICE_VOICE_CALL,binding.inputPriceVoice.getText().toString());
-        user.put(Constants.KEY_PRICE_VIDEO_CALL,binding.inputPriceVideo.getText().toString());
-        user.put(Constants.KEY_Email, email);
+        user.put(Constants.KEY_IMAGE, encodedImage);
+        user.put(Constants.KEY_NAME, binding.inputname.getText().toString());
+        user.put(Constants.KEY_PHONE, binding.inputTel.getText().toString());
+        user.put(Constants.KEY_EXPERIENCE, binding.inputFormation.getText().toString());
+        user.put(Constants.KEY_PRICE_CHAT, binding.inputPriceChat.getText().toString());
+        user.put(Constants.KEY_PRICE_VOICE_CALL, binding.inputPriceVoice.getText().toString());
+        user.put(Constants.KEY_PRICE_VIDEO_CALL, binding.inputPriceVideo.getText().toString());
         user.put(Constants.KEY_USER_ID, userId);
+        user.put(Constants.KEY_EMAIL, email); // Save email
+        user.put(Constants.KEY_PASSWORD, binding.inputPassword.getText().toString()); // Save password
+        // Ajouter les champs ratingsSum, ratingsCount et averageRating
+        user.put("ratingsSum", 0.0);
+        user.put("ratingsCount", 0L);
+        user.put("averageRating", 0.0);
+
         database.collection(Constants.KEY_COLLECTION_DOCTORS)
-                .add(user)
+                .document(userId)  // Use userId as the document ID
+                .set(user)
                 .addOnSuccessListener(documentReference -> {
                     loading(false);
-                    preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN,true);
-                    preferenceManager.putString(Constants.KEY_USER_ID, documentReference.getId());
-
-                    preferenceManager.putString(Constants.KEY_IMAGE,encodedImage);
+                    preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true);
+                    preferenceManager.putString(Constants.KEY_USER_ID, userId);
+                    preferenceManager.putString(Constants.KEY_IMAGE, encodedImage);
                     preferenceManager.putString(Constants.KEY_NAME, binding.inputname.getText().toString());
-                    preferenceManager.putString(Constants.KEY_PHONE,binding.inputTel.getText().toString());
-                    preferenceManager.putString(Constants.KEY_EXPERIENCE,binding.inputFormation.getText().toString());
-                    preferenceManager.putString(Constants.KEY_PRICE_CHAT,binding.inputPriceChat.getText().toString());
-                    preferenceManager.putString(Constants.KEY_PRICE_VOICE_CALL,binding.inputPriceVoice.getText().toString());
-                    preferenceManager.putString(Constants.KEY_PRICE_VIDEO_CALL,binding.inputPriceVideo.getText().toString());
+                    preferenceManager.putString(Constants.KEY_PHONE, binding.inputTel.getText().toString());
+                    preferenceManager.putString(Constants.KEY_EXPERIENCE, binding.inputFormation.getText().toString());
+                    preferenceManager.putString(Constants.KEY_PRICE_CHAT, binding.inputPriceChat.getText().toString());
+                    preferenceManager.putString(Constants.KEY_PRICE_VOICE_CALL, binding.inputPriceVoice.getText().toString());
+                    preferenceManager.putString(Constants.KEY_PRICE_VIDEO_CALL, binding.inputPriceVideo.getText().toString());
+                    preferenceManager.putString(Constants.KEY_EMAIL, email); // Save email to preferences
+                    preferenceManager.putString(Constants.KEY_PASSWORD, binding.inputPassword.getText().toString()); // Save password to preferences
 
-                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), Recupereinfo.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                 })
-                .addOnFailureListener(exception->{
+                .addOnFailureListener(exception -> {
                     loading(false);
                     showToast(exception.getMessage());
                 });
-
-
-
     }
 
-    private boolean isDataValide() {
+
+    private boolean isDataValid() {
         if (encodedImage == null) {
             showToast("Select profile Image");
             return false;
@@ -134,48 +149,45 @@ public class AccountMedActivity extends AppCompatActivity {
         } else if (binding.inputFormation.getText().toString().trim().isEmpty()) {
             showToast("Enter your experiences");
             return false;
-        } else if (binding.inputFormation.getText().toString().trim().isEmpty()) {
-            showToast("Enter your experiences");
-            return false;
-        }else if (binding.inputPriceChat.getText().toString().trim().isEmpty()) {
-            showToast("Enter price to messaging");
+        } else if (binding.inputPriceChat.getText().toString().trim().isEmpty()) {
+            showToast("Enter price for messaging");
             return false;
         } else if (binding.inputPriceVoice.getText().toString().trim().isEmpty()) {
-            showToast("Enter price to voice call");
+            showToast("Enter price for voice call");
             return false;
         } else if (binding.inputPriceVideo.getText().toString().trim().isEmpty()) {
-            showToast("Enter price to video call");
+            showToast("Enter price for video call");
             return false;
         } else {
             return true;
         }
     }
 
-    private String encodedImage(Bitmap bitmap){
+    private String encodeImage(Bitmap bitmap) {
         int previewWidth = 150;
-        int previewHeight = bitmap.getHeight() * previewWidth /bitmap.getWidth();
-        Bitmap previewBitmap = Bitmap.createScaledBitmap(bitmap,previewWidth,previewHeight,false);
+        int previewHeight = bitmap.getHeight() * previewWidth / bitmap.getWidth();
+        Bitmap previewBitmap = Bitmap.createScaledBitmap(bitmap, previewWidth, previewHeight, false);
 
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        previewBitmap.compress(Bitmap.CompressFormat.PNG,50,byteArrayOutputStream);
+        previewBitmap.compress(Bitmap.CompressFormat.PNG, 50, byteArrayOutputStream);
 
         byte[] bytes = byteArrayOutputStream.toByteArray();
         return Base64.encodeToString(bytes, Base64.DEFAULT);
     }
 
-    private final ActivityResultLauncher<Intent> pickImage= registerForActivityResult(
+    private final ActivityResultLauncher<Intent> pickImage = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
-            result->{
-                if(result.getResultCode() == RESULT_OK) {
-                    if(result.getData() != null) {
+            result -> {
+                if (result.getResultCode() == RESULT_OK) {
+                    if (result.getData() != null) {
                         Uri imageUri = result.getData().getData();
                         try {
                             InputStream inputStream = getContentResolver().openInputStream(imageUri);
                             Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
                             binding.ImageProfil.setImageBitmap(bitmap);
                             binding.textImage.setVisibility(View.GONE);
-                            encodedImage = encodedImage(bitmap);
-                        }catch(FileNotFoundException e) {
+                            encodedImage = encodeImage(bitmap);
+                        } catch (FileNotFoundException e) {
                             e.printStackTrace();
                         }
                     }
@@ -188,15 +200,12 @@ public class AccountMedActivity extends AppCompatActivity {
     }
 
     private void loading(Boolean isLoading) {
-        if(isLoading) {
+        if (isLoading) {
             binding.btnCreate.setVisibility(View.INVISIBLE);
             binding.progressBar.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             binding.btnCreate.setVisibility(View.VISIBLE);
             binding.progressBar.setVisibility(View.INVISIBLE);
         }
     }
-
-
-
 }
