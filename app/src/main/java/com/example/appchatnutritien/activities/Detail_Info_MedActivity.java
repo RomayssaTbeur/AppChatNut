@@ -68,7 +68,7 @@ public class Detail_Info_MedActivity extends AppCompatActivity {
 
     private RatingBar ratingBar;
     private TextView averageRatingValue;
-    private ImageView submitRatingButton;
+    private ImageView submitRatingButton ,  btnBack;;
 
     @SuppressLint("WrongViewCast")
     @Override
@@ -108,6 +108,7 @@ public class Detail_Info_MedActivity extends AppCompatActivity {
         ratingBar = findViewById(R.id.ratingBar);
         submitRatingButton = findViewById(R.id.submitRatingButton);
         averageRatingValue = findViewById(R.id.averageRatingValue);
+        btnBack = findViewById(R.id.btnBack);
 
 
         // Load the average rating
@@ -121,6 +122,7 @@ public class Detail_Info_MedActivity extends AppCompatActivity {
             }
         });
 
+        btnBack.setOnClickListener(v -> onBackPressed());
 
         db.collection("Payments")
                 .whereEqualTo("Doctor", recivesId)

@@ -7,7 +7,9 @@
     android:layout_height="match_parent"
 
     android:clipToPadding="false"
-    android:padding="@dimen/_24sdp"
+    android:paddingHorizontal="@dimen/_22sdp"
+    android:paddingLeft="@dimen/_22sdp"
+    android:paddingRight="@dimen/_22sdp"
     android:scrollbars="none"
 
     android:background="@drawable/removegreen"
@@ -49,6 +51,19 @@
                 android:textColor="@color/greenfat7"
                 />
         </FrameLayout>
+
+
+        <EditText
+            android:id="@+id/inputname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Name"
+            android:textColor="@color/black"
+            android:inputType="text"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:imeOptions="actionNext"
+
+            />
         <EditText
             android:id="@+id/email"
             android:layout_width="match_parent"
@@ -60,21 +75,14 @@
             android:imeOptions="actionNext"
 
             />
+
         <EditText
-            android:id="@+id/inputPassword"
+            android:id="@+id/password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Password"
             android:textColor="@color/black"
             android:inputType="textPassword"
-            android:imeOptions="actionNext"/>
-        <EditText
-            android:id="@+id/inputname"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Name"
-            android:textColor="@color/black"
-            android:inputType="text"
             android:layout_marginTop="@dimen/_6sdp"
             android:imeOptions="actionNext"
 

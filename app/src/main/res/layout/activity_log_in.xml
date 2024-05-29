@@ -22,52 +22,25 @@
             android:layout_width="@dimen/_160sdp"
             android:layout_height="@dimen/_130sdp"
             android:src="@drawable/removenewlogo1" />
-        <!--      <EditText
-                  android:id="@+id/inputname"
-                  android:layout_width="match_parent"
-                  android:layout_height="@dimen/_45sdp"
-                  android:hint="Name"
 
-                  android:inputType="text"
-                  android:layout_marginTop="@dimen/_20sdp"
-                  android:imeOptions="actionNext"
-                  android:background="@drawable/rectangleinput"
-                  android:textSize="@dimen/_15sdp"
-                  android:paddingStart="@dimen/_15sdp"
-                  android:paddingEnd="@dimen/_15sdp"
-
-
-                  />
-              <EditText
-                  android:id="@+id/inputphone"
-                  android:layout_width="match_parent"
-                  android:layout_height="@dimen/_45sdp"
-                  android:hint="Phone number"
-                  android:inputType="number|phone"
-                  android:layout_marginTop="@dimen/_15sdp"
-                  android:imeOptions="actionDone"
-                  android:background="@drawable/rectangleinput"
-                  android:textSize="@dimen/_15sdp"
-                  android:paddingStart="@dimen/_15sdp"
-                  android:paddingEnd="@dimen/_15sdp"
-
-                  />-->
         <EditText
-            android:id="@+id/email"
+            android:id="@+id/inputemail"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_45sdp"
-            android:hint="Email"
-
-            android:inputType="textEmailAddress"
+            android:layout_height="54dp"
             android:layout_marginTop="@dimen/_20sdp"
-            android:imeOptions="actionNext"
+
             android:background="@drawable/rectangleinput"
-            android:textSize="@dimen/_15sdp"
+            android:hint="Email"
+            android:imeOptions="actionNext"
+            android:inputType="textEmailAddress"
             android:paddingStart="@dimen/_15sdp"
             android:paddingEnd="@dimen/_15sdp"
+            android:textSize="@dimen/_15sdp"
 
 
             />
+
+
         <EditText
             android:id="@+id/inputpassword"
             android:layout_width="match_parent"
@@ -81,6 +54,18 @@
             android:paddingStart="@dimen/_15sdp"
             android:paddingEnd="@dimen/_15sdp"
 
+            />
+        <TextView
+            android:id="@+id/txtForgotPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Forgot Password ?"
+            android:textColor="#F42A2A"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-condensed-light"
+            android:textSize="16dp"
+            android:textAlignment="textEnd"
+            android:layout_marginTop="12dp"
             />
 
         <FrameLayout

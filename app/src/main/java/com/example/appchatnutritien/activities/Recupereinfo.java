@@ -95,6 +95,7 @@ public class Recupereinfo extends AppCompatActivity {
                 String userId = documentSnapshot.getString("userId");
 
                 recivesId[i]=userId;
+                if (encodedImage != null && !encodedImage.isEmpty()) {
                 byte[] decodedBytes = Base64.decode(encodedImage, Base64.DEFAULT);
                 Bitmap bitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
                 ImageView profileImageView = findViewById(profileIds[i]);
@@ -105,7 +106,11 @@ public class Recupereinfo extends AppCompatActivity {
                     Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, targetWidth, targetHeight, false);
                     profileImageView.setImageBitmap(resizedBitmap);
                 }
-
+            } else {
+                Log.w("Recupereinfo", "Encoded image is null or empty for userId: " + userId);
+                ImageView profileImageView = findViewById(profileIds[i]);
+                profileImageView.setImageResource(R.drawable.profillogo); // Default image
+            }
                 TextView firstNameTextView = findViewById(firstNameIds[i]);
                 firstNameTextView.setText(name);
             }

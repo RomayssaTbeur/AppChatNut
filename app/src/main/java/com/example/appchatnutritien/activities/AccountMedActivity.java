@@ -65,7 +65,7 @@ public class AccountMedActivity extends AppCompatActivity {
         loading(true);
 
         String email = binding.email.getText().toString().trim();
-        String password = binding.inputPassword.getText().toString().trim();
+        String password = binding.password.getText().toString().trim();
 
         if (email.isEmpty() || password.isEmpty()) {
             showToast("Email and password must not be empty");
@@ -102,7 +102,7 @@ public class AccountMedActivity extends AppCompatActivity {
         user.put(Constants.KEY_PRICE_VIDEO_CALL, binding.inputPriceVideo.getText().toString());
         user.put(Constants.KEY_USER_ID, userId);
         user.put(Constants.KEY_EMAIL, email); // Save email
-        user.put(Constants.KEY_PASSWORD, binding.inputPassword.getText().toString()); // Save password
+        user.put(Constants.KEY_PASSWORD, binding.password.getText().toString()); // Save password
         // Ajouter les champs ratingsSum, ratingsCount et averageRating
         user.put("ratingsSum", 0.0);
         user.put("ratingsCount", 0L);
@@ -123,7 +123,7 @@ public class AccountMedActivity extends AppCompatActivity {
                     preferenceManager.putString(Constants.KEY_PRICE_VOICE_CALL, binding.inputPriceVoice.getText().toString());
                     preferenceManager.putString(Constants.KEY_PRICE_VIDEO_CALL, binding.inputPriceVideo.getText().toString());
                     preferenceManager.putString(Constants.KEY_EMAIL, email); // Save email to preferences
-                    preferenceManager.putString(Constants.KEY_PASSWORD, binding.inputPassword.getText().toString()); // Save password to preferences
+                    preferenceManager.putString(Constants.KEY_PASSWORD, binding.password.getText().toString()); // Save password to preferences
 
                     Intent intent = new Intent(getApplicationContext(), Recupereinfo.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

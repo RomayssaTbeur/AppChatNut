@@ -11,4 +11,5 @@
     <color name="textmauve">#29203C</color>
     <color name="lavender">#8692f7</color>
     <color name="grey">#ff424242</color>
+    <color name="erreur">#FF0000</color>
 </resources>

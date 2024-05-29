@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
-    android:background="@drawable/backloginpatient"
+    android:background="@drawable/waves"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.LoginPatientActivity">
@@ -11,11 +11,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:gravity="center_horizontal"
         android:padding="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        >
+        <ImageView
+            android:layout_width="@dimen/_160sdp"
+            android:layout_height="@dimen/_130sdp"
+            android:src="@drawable/removenewlogo1" />
+
         <TextView
             android:id="@+id/text"
             android:layout_width="match_parent"
@@ -27,29 +34,72 @@
             />
         <EditText
             android:id="@+id/name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Nom d'utilisateur ..."
+            android:hint="Email d'utilisateur ..."
             android:textColor="#201F1F"
-            android:inputType="textEmailAddress" />
+            android:inputType="textEmailAddress"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:background="@drawable/rectangleinput"
+            android:imeOptions="actionNext"
+            android:paddingStart="@dimen/_15sdp"
+            android:paddingEnd="@dimen/_15sdp"
+            android:textSize="@dimen/_15sdp"/>
 
         <EditText
             android:id="@+id/password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Mot de passe ..."
             android:textColor="#201F1F"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_45sdp"
+            android:hint="Password"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:imeOptions="actionDone"
+            android:background="@drawable/rectangleinput"
+            android:textSize="@dimen/_15sdp"
+            android:paddingStart="@dimen/_15sdp"
+            android:paddingEnd="@dimen/_15sdp"
 
-        <Button
-            android:id="@+id/loginButton"
+            />
+<TextView
+    android:id="@+id/txtForgotPassword"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Forgot Password ?"
+    android:textColor="#F42A2A"
+    android:textStyle="bold"
+    android:fontFamily="sans-serif-condensed-light"
+    android:textSize="16dp"
+    android:textAlignment="textEnd"
+    android:layout_marginTop="12dp"
+    />
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="login"
-            android:backgroundTint="#2E8B57"
-            android:text="Se connecter"
-            android:textStyle="bold"
-            android:textColor="@color/white"/>
+            android:layout_marginTop="@dimen/_20sdp"
+            android:animateLayoutChanges="true">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/loginButton"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:text="LOG IN"
+                android:textSize="@dimen/_13ssp"
+                android:textStyle="bold"
+                app:cornerRadius="@dimen/_8sdp"
+                android:backgroundTint="@color/BtnBackground"
+                android:onClick="login"
+                android:textColor="@color/white"/>
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:layout_gravity="center"
+                android:visibility="invisible"/>
+
+        </FrameLayout>
+
 
         <TextView
             android:id="@+id/textView"

@@ -126,7 +126,7 @@ public class RegisterPatientActivity extends AppCompatActivity {
                                     .set(patient)
                                     .addOnSuccessListener(aVoid -> {
                                         Toast.makeText(RegisterPatientActivity.this, "Patient ajouté avec succès", Toast.LENGTH_SHORT).show();
-                                        Intent intent = new Intent(RegisterPatientActivity.this, HomePatientActivity.class);
+                                        Intent intent = new Intent(RegisterPatientActivity.this, LoginPatientActivity.class);
                                         startActivity(intent);
                                         finish();
                                     })
